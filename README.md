@@ -128,9 +128,11 @@ klasy do własnego, prostego skryptu.
 
 
 ## Instalacja i uruchomienie
-``bash
+```bash
 cd ~/Desktop/baselinker_bundler
 python3 -m pip install -r requirements.txt
 python3 app.py
-``
+```
+```bash
 http://localhost:5050# baselinker_bundler
+```
