@@ -127,7 +127,7 @@ klasy do własnego, prostego skryptu.
   proporcjonalnie dłużej — to celowe zabezpieczenie, nie błąd.
 
 
-INSTALACJA
+## Instalacja i uruchomienie
 ``bash
 cd ~/Desktop/baselinker_bundler
 python3 -m pip install -r requirements.txt
