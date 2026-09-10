@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kreator Zestawów · BaseLinker</title>
+<meta name="color-scheme" content="dark light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+      </span>
+      <div class="brand-text">
+        <span class="brand-title">Kreator Zestawów</span>
+        <span class="brand-sub">BaseLinker · masowe tworzenie zestawów z CSV</span>
+      </div>
+    </div>
+
+    <div class="theme-switch" role="radiogroup" aria-label="Motyw kolorystyczny">
+      <button type="button" class="theme-btn" data-theme-choice="auto" title="Automatycznie (jak urządzenie)" aria-pressed="false">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span>Auto</span>
+      </button>
+      <button type="button" class="theme-btn" data-theme-choice="light" title="Jasny" aria-pressed="true">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <span>Jasny</span>
+      </button>
+      <button type="button" class="theme-btn" data-theme-choice="dark" title="Ciemny" aria-pressed="false">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        <span>Ciemny</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="tool-nav" role="tablist" aria-label="Wybór narzędzia">
+    <button type="button" class="tool-nav-btn is-active" data-page="bundler" role="tab" aria-selected="true">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+      Import zestawów
+    </button>
+    <button type="button" class="tool-nav-btn" data-page="xmlconv" role="tab" aria-selected="false">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 15h1M9 18h1M14 15h1M14 18h1"/></svg>
+      XML → CSV
+    </button>
+  </nav>
+
+  <div class="page" id="page-bundler">
+  <div class="layout">
+
+    <aside class="sidebar">
+      <section class="panel settings-panel">
+        <h2 class="panel-title">Ustawienia</h2>
+
+        <label class="field">
+          <span class="field-label">
+            <svg class="field-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777Zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+            Token API BaseLinker
+          </span>
+          <div class="input-with-action">
+            <input type="password" id="input-token" autocomplete="off" spellcheck="false" placeholder="np. 1234-ABCDEFGH">
+            <button type="button" id="toggle-token-visibility" class="icon-btn" title="Pokaż / ukryj token" aria-label="Pokaż lub ukryj token">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <span class="field-hint">Panel BaseLinker → Twoje konto → Klucze API</span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">
+            <svg class="field-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8m18 0-9 5m9-5v9l-9 5m0-9L3 8m9 5v9M3 8v9l9 5"/></svg>
+            ID katalogu (inventory_id)
+          </span>
+          <input type="number" id="input-inventory" min="1" inputmode="numeric" placeholder="np. 1">
+        </label>
+
+        <label class="field">
+          <span class="field-label">
+            <svg class="field-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24L4 3a1 1 0 0 0-1 1l.24 5.59a2 2 0 0 0 .59 1.41l9.58 9.58a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.82Z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+            ID grupy cenowej
+          </span>
+          <input type="number" id="input-price-group" min="1" inputmode="numeric" value="1">
+          <span class="field-hint">Cena zestawu zostanie wyliczona automatycznie jako suma cen składników (w tej grupie cenowej) pomnożonych przez ich ilości.</span>
+          <button type="button" id="btn-load-price-groups" class="link-download" style="margin-top:6px;background:none;border:none;cursor:pointer;padding:0;">
+            Sprawdź dostępne grupy cenowe →
+          </button>
+          <div id="price-groups-result" class="price-groups-result" hidden></div>
+        </label>
+
+        <label class="checkbox-field">
+          <input type="checkbox" id="input-remember">
+          <span>Zapamiętaj dane na tym urządzeniu</span>
+        </label>
+
+        <div class="settings-actions">
+          <button type="button" id="btn-test-connection" class="btn btn-secondary">Testuj połączenie</button>
+          <span id="test-connection-result" class="test-result" role="status"></span>
+        </div>
+      </section>
+
+      <section class="panel help-panel">
+        <h2 class="panel-title">Jak to działa?</h2>
+        <ol class="help-steps">
+          <li>Uzupełnij token API i ID katalogu powyżej.</li>
+          <li>Przeciągnij plik CSV z zestawami (albo go wybierz klikając).</li>
+          <li>Sprawdź podgląd pierwszych 5 wierszy — kolumny muszą się zgadzać.</li>
+          <li>Kliknij „Rozpocznij tworzenie zestawów”.</li>
+          <li>Obserwuj log na żywo. Gotowe zestawy pojawią się w katalogu BaseLinker.</li>
+        </ol>
+        <a href="/api/download-template" class="link-download">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M5 21h14"/></svg>
+          Pobierz przykładowy plik CSV
+        </a>
+      </section>
+    </aside>
+
+    <main class="content">
+
+      <section class="panel step-panel" id="step-upload">
+        <div class="step-heading">
+          <span class="step-eyebrow">Krok 01</span>
+          <h2>Wgraj plik CSV</h2>
+        </div>
+
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Wgraj plik CSV z zestawami">
+          <input type="file" id="file-input" accept=".csv" hidden>
+          <div class="dropzone-content">
+            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.6 4.6 0 0 1-.6-9.16 5.5 5.5 0 0 1 10.7-2A4.5 4.5 0 0 1 17.5 18H7Z"/><path d="M12 12v7M9.3 14.7 12 12l2.7 2.7"/></svg>
+            <p class="dropzone-text">Przeciągnij i upuść plik CSV tutaj<br><span>lub kliknij, aby wybrać z dysku</span></p>
+          </div>
+        </div>
+
+        <div id="upload-status" class="upload-status" hidden></div>
+      </section>
+
+      <section class="panel step-panel" id="step-preview">
+        <div class="step-heading">
+          <span class="step-eyebrow">Krok 02</span>
+          <h2>Podgląd pierwszych 5 pozycji</h2>
+        </div>
+
+        <div class="table-scroll">
+          <table id="preview-table" class="preview-table">
+            <thead><tr id="preview-head"></tr></thead>
+            <tbody id="preview-body"></tbody>
+          </table>
+        </div>
+        <p id="preview-summary" class="preview-summary">Poniżej przykładowy układ kolumn szablonu — wgraj plik CSV, aby zobaczyć podgląd swoich danych.</p>
+      </section>
+
+      <section class="panel step-panel" id="step-run">
+        <div class="step-heading">
+          <span class="step-eyebrow">Krok 03</span>
+          <h2>Uruchom i obserwuj</h2>
+        </div>
+
+        <div class="run-controls">
+          <button type="button" id="btn-start" class="btn btn-primary" disabled>▶ Rozpocznij tworzenie zestawów</button>
+          <button type="button" id="btn-cancel" class="btn btn-ghost" hidden>Anuluj</button>
+        </div>
+        <p id="start-hint" class="start-hint" role="alert" hidden></p>
+
+        <div class="progress-bar" id="progress-bar" hidden>
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <div class="console">
+          <div class="console-header">
+            <span>LOG</span>
+            <button type="button" id="btn-download-log" class="link-btn" hidden>Pobierz log (.txt)</button>
+          </div>
+          <div class="console-body" id="console-body" aria-live="polite">
+            <p class="console-placeholder">Tu pojawi się log na żywo podczas tworzenia zestawów.</p>
+          </div>
+        </div>
+
+        <div class="summary-cards" id="summary-cards" hidden>
+          <div class="summary-card summary-created"><span id="summary-created">0</span><label>Utworzono</label></div>
+          <div class="summary-card summary-skipped"><span id="summary-skipped">0</span><label>Pominięto</label></div>
+          <div class="summary-card summary-errors"><span id="summary-errors">0</span><label>Błędy</label></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  </div><!-- /page-bundler -->
+
+  <div class="page" id="page-xmlconv" hidden>
+  <div class="layout">
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 class="panel-title">Pliki XML</h2>
+
+        <label class="field">
+          <span class="field-label">
+            <svg class="field-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+            Plik XML (pełna oferta, np. full.xml)
+          </span>
+          <input type="file" id="xml-file-1" accept=".xml">
+        </label>
+
+        <label class="field">
+          <span class="field-label">
+            <svg class="field-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+            Plik XML z cenami/stanami (opcjonalnie, np. light.xml)
+          </span>
+          <input type="file" id="xml-file-2" accept=".xml">
+          <span class="field-hint">Część hurtowni dzieli ofertę na dwa pliki (opisy osobno, ceny osobno) — jeśli tak jest u Ciebie, wgraj oba, zostaną połączone po wspólnym identyfikatorze produktu.</span>
+        </label>
+
+        <button type="button" id="btn-xml-inspect" class="btn btn-primary" style="width:100%;margin-top:6px;">Wczytaj i wykryj pola</button>
+        <div id="xml-inspect-status" class="upload-status" hidden></div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-title">Profil hurtowni</h2>
+        <label class="field">
+          <span class="field-label">Wczytaj zapisany profil</span>
+          <select id="xml-profile-select">
+            <option value="">— brak / nowy —</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field-label">Nazwa profilu do zapisania</span>
+          <input type="text" id="xml-profile-name" placeholder="np. Chomik">
+        </label>
+        <button type="button" id="btn-xml-save-profile" class="btn btn-ghost" style="width:100%;">Zapisz obecne mapowanie jako profil</button>
+        <span class="field-hint">Profile trzymane są tylko w tej przeglądarce (localStorage), nie na serwerze.</span>
+      </section>
+
+      <section class="panel help-panel">
+        <h2 class="panel-title">Jak to działa?</h2>
+        <ol class="help-steps">
+          <li>Wgraj jeden lub dwa pliki XML od hurtowni i kliknij „Wczytaj i wykryj pola”.</li>
+          <li>Program sam znajduje powtarzalne pola (nazwę, cenę, EAN, cechy...) i pokazuje przykładowe wartości.</li>
+          <li>Dla każdego wykrytego pola wybierz, na jaką kolumnę CSV ma trafić (albo „pomiń”).</li>
+          <li>Kliknij „Generuj CSV” — plik pobierze się od razu.</li>
+          <li>Zapisz mapowanie jako profil, żeby przy kolejnej ofercie tej samej hurtowni nie robić tego od nowa.</li>
+        </ol>
+      </section>
+    </aside>
+
+    <main class="content">
+
+      <section class="panel step-panel" id="xml-step-mapping">
+        <div class="step-heading">
+          <span class="step-eyebrow">Krok 02</span>
+          <h2>Zmapuj wykryte pola na kolumny CSV</h2>
+        </div>
+        <p id="xml-mapping-summary" class="preview-summary">Wgraj plik(i) XML po lewej, aby zobaczyć wykryte pola.</p>
+        <button type="button" id="btn-xml-select-all" class="btn btn-ghost" hidden style="margin-bottom:10px;">Zaznacz wszystkie pola (użyj oryginalnych nazw)</button>
+        <div class="table-scroll">
+          <table id="xml-mapping-table" class="preview-table" hidden>
+            <thead>
+              <tr><th>Wykryte pole</th><th>Przykładowa wartość</th><th>Kolumna CSV</th></tr>
+            </thead>
+            <tbody id="xml-mapping-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel step-panel" id="xml-step-generate">
+        <div class="step-heading">
+          <span class="step-eyebrow">Krok 03</span>
+          <h2>Wygeneruj plik CSV</h2>
+        </div>
+        <div class="run-controls">
+          <button type="button" id="btn-xml-generate" class="btn btn-primary" disabled>⬇ Generuj i pobierz CSV</button>
+        </div>
+        <p id="xml-generate-hint" class="start-hint" role="alert" hidden></p>
+      </section>
+
+    </main>
+  </div>
+  </div><!-- /page-xmlconv -->
+
+  <footer class="app-footer">
+    Działa lokalnie na Twoim komputerze — dane trafiają wyłącznie do api.baselinker.com
+  </footer>
+</div>
+
+<script>
+  window.__TEMPLATE_COLUMNS__ = {{ template_columns | tojson }};
+  window.__COMPONENT_SLOTS__ = {{ component_slots | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>
+  // Prosta nawigacja między dwoma narzędziami - nie dotyka logiki app.js.
+  (function () {
+    var navButtons = document.querySelectorAll(".tool-nav-btn");
+    var pages = { bundler: document.getElementById("page-bundler"), xmlconv: document.getElementById("page-xmlconv") };
+    navButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var target = btn.getAttribute("data-page");
+        navButtons.forEach(function (b) {
+          var active = b === btn;
+          b.classList.toggle("is-active", active);
+          b.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        Object.keys(pages).forEach(function (key) {
+          pages[key].hidden = key !== target;
+        });
+      });
+    });
+  })();
+</script>
+<script src="{{ url_for('static', filename='js/xml_converter.js') }}"></script>
+</body>
+</html>
